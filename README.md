@@ -1,2 +1,2 @@
 # chatgptparser
-Parse folders and files names for good LLM prompts
+Simple parser folders and files names for good LLM prompts
