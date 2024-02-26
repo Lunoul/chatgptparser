@@ -9,7 +9,11 @@ def select_folder():
 def display_files_and_folders():
     global folder_path
     if folder_path:
-        contents = os.listdir(folder_path)
+        contents = []
+        if include_subfolders_var.get():
+            contents = find_files_in_subfolders(folder_path)
+        else:
+            contents = os.listdir(folder_path)
         result = []
         for item in contents:
             if item.lower().endswith(".lnk") or item.lower().endswith(".url"):
@@ -28,6 +32,15 @@ def display_files_and_folders():
     else:
         print("Please select a folder first.")
 
+def find_files_in_subfolders(path):
+    files = []
+    for root, dirs, filenames in os.walk(path):
+        for filename in filenames:
+            if filename.lower().endswith(".lnk") or filename.lower().endswith(".url"):
+                filename = os.path.splitext(filename)[0]
+            relative_path = os.path.relpath(os.path.join(root, filename), path)
+            files.append(relative_path)
+    return files
 def copy_to_clipboard():
     text_area.configure(state="normal")
     text_area.clipboard_clear()
@@ -50,6 +63,10 @@ use_commas_var = tk.BooleanVar()
 use_commas_checkbox = tk.Checkbutton(root, text="Ставить через запятую", variable=use_commas_var)
 use_commas_checkbox.pack(pady=(0, 10))
 
+include_subfolders_var = tk.BooleanVar()
+include_subfolders_checkbox = tk.Checkbutton(root, text="Учитывать файлы в подпапках", variable=include_subfolders_var)
+include_subfolders_checkbox.pack(pady=(0, 10))
+
 copy_button = tk.Button(root, text="Copy", command=copy_to_clipboard)
 copy_button.pack(pady=(0, 10))
 
@@ -57,3 +74,6 @@ text_area = tk.Text(root, width=50, height=20, state="normal")
 text_area.pack(pady=10)
 
 root.mainloop()
+
+
+#  
