@@ -2,6 +2,7 @@
 
 This project is a simple tool for displaying file and folder names in a selected directory. It also allows for ignoring certain folders such as `.git`, `.idea`, and `__pycache__`.
 It's very handy when you have to describe all the files for chatgpt to help you.
+<img width="304" alt="python_N6hR9RIc5y" src="https://github.com/Lunoul/chatgptparser/assets/63908666/f52d1bfc-2080-4b02-b70c-efc717c42e34">
 
 ## Installation
 
