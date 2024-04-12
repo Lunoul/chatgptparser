@@ -13,7 +13,7 @@ def display_files_and_folders():
         if include_subfolders_var.get():
             contents = find_files_in_subfolders(folder_path)
         else:
-            contents = os.listdir(folder_path)
+            contents = [item for item in os.listdir(folder_path) if item not in ['.git', '.idea', '__pycache__']]
         result = []
         for item in contents:
             if item.lower().endswith(".lnk") or item.lower().endswith(".url"):
@@ -35,6 +35,7 @@ def display_files_and_folders():
 def find_files_in_subfolders(path):
     files = []
     for root, dirs, filenames in os.walk(path):
+        dirs[:] = [d for d in dirs if d not in ['.git', '.idea', '__pycache__']]
         for filename in filenames:
             if filename.lower().endswith(".lnk") or filename.lower().endswith(".url"):
                 filename = os.path.splitext(filename)[0]
@@ -60,11 +61,11 @@ start_button = tk.Button(button_frame, text="Start", command=display_files_and_f
 start_button.grid(row=0, column=1, padx=(10, 20))
 
 use_commas_var = tk.BooleanVar()
-use_commas_checkbox = tk.Checkbutton(root, text="Ставить через запятую", variable=use_commas_var)
+use_commas_checkbox = tk.Checkbutton(root, text="Separate with a comma", variable=use_commas_var)
 use_commas_checkbox.pack(pady=(0, 10))
 
 include_subfolders_var = tk.BooleanVar()
-include_subfolders_checkbox = tk.Checkbutton(root, text="Учитывать файлы в подпапках", variable=include_subfolders_var)
+include_subfolders_checkbox = tk.Checkbutton(root, text="Show files in subfolders", variable=include_subfolders_var)
 include_subfolders_checkbox.pack(pady=(0, 10))
 
 copy_button = tk.Button(root, text="Copy", command=copy_to_clipboard)
@@ -74,6 +75,3 @@ text_area = tk.Text(root, width=50, height=20, state="normal")
 text_area.pack(pady=10)
 
 root.mainloop()
-
-
-#  
