@@ -26,6 +26,3 @@ pip install pyinstaller
 ```bash
 pyinstaller --onefile main.py
 ```
-```bash
-Please replace any specific instructions or details that may be unique to your project.
-```
